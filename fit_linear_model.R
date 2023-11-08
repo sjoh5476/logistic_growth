@@ -1,19 +1,23 @@
 #Script to estimate the model parameters using a linear approximation
 
-#library(dplyr)
+install.packages("dplyr")
+library(dplyr)
 
-growth_data <- read.csv("???")
+growth_data <- read.csv("experiment1.csv")
 
-#Case 1. K >> N0, t is small
+#Case 1. K >> N0, t is small: Finding N0 and r
 
-data_subset1 <- growth_data %>% filter(t<???) %>% mutate(N_log = log(N))
+data_subset1 <- growth_data %>% filter(t<1600) %>% mutate(N_log = log(N))
+#It is linear when t is small and from the graph I understood the limit of linearity to be when t is below 1600
 
 model1 <- lm(N_log ~ t, data_subset1)
 summary(model1)
+# y-intercept (b, N0) = e^6.903e+00=995, gradient (r, m) =  9.990e-03  
 
-#Case 2. N(t) = K
 
-data_subset2 <- growth_data %>% filter(t>???)
+#Case 2. N(t) = K: Finding K
+data_subset2 <- growth_data %>% filter(t>2500)
 
 model2 <- lm(N ~ 1, data_subset2)
 summary(model2)
+# y-intercept (K) = 6.00e+10
